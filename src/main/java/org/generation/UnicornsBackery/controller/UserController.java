@@ -4,11 +4,7 @@ import org.generation.UnicornsBackery.model.Users;
 import org.generation.UnicornsBackery.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/user") // This means URL's start with /demo (after Application path)
@@ -54,5 +50,29 @@ public class UserController {
     public @ResponseBody Iterable<Users> getAllUsers() {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
+    }
+
+    @DeleteMapping(path = "delete/{id}")
+    public @ResponseBody void deleteUser(@PathVariable int id){
+        userRepository.deleteById(id);
+    }
+
+    @PutMapping(path = "update/{id}")
+    public @ResponseBody void updateUser(@PathVariable int id,
+                                         @RequestParam String user_name,
+                                         @RequestParam String email,
+                                         @RequestParam String password,
+                                         @RequestParam int id_type_user,
+                                         @RequestParam String createAt,
+                                         @RequestParam String updateAt){
+        Users updateUser = new Users();
+        updateUser.setIdUsers(id);
+        updateUser.setUser_name(user_name);
+        updateUser.setEmail(email);
+        updateUser.setPassword(password);
+        updateUser.setId_type_user(id_type_user);
+        updateUser.setCreateAt(createAt);
+        updateUser.setUpdateAt(updateAt);
+        userRepository.save(updateUser);
     }
 }
