@@ -8,5 +8,4 @@ import org.generation.UnicornsBackery.model.Users;
 // CRUD refers Create, Read, Update, Delete
 
 public interface UserRepository extends CrudRepository<Users, Integer> {
-
 }

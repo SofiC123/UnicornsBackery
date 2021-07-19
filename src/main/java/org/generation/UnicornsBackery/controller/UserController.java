@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/user") // This means URL's start with /demo (after Application path)
 public class UserController {
@@ -51,6 +55,19 @@ public class UserController {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }
+
+   /* @GetMapping(path="/find/{id}")
+    public @ResponseBody String findUser(@PathVariable int id){
+        return "se econtro el usuario"+userRepository.findById(id);
+    }*/
+
+    @GetMapping(path="/find/{id}")
+    public @ResponseBody Iterable<Users> findUser(@PathVariable int id){
+       List<Integer> ids = new ArrayList<>();
+       ids.add(id);
+       return userRepository.findAllById(ids);
+    }
+
 
     @DeleteMapping(path = "delete/{id}")
     public @ResponseBody void deleteUser(@PathVariable int id){

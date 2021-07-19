@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/product") // This means URL's start with /demo (after Application path)
 
@@ -42,6 +45,8 @@ public class ProductsController {
         productsRepository.save(newProduct);
         return "Saved";
     }
+
+
     @PostMapping(path="/checkProduct")
     public @ResponseBody Boolean checkProduct(@RequestParam String name,
                                            @RequestParam String tags){
@@ -53,15 +58,28 @@ public class ProductsController {
         }
         return false;
     }
+
+
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Products> getAllProducts() {
         // This returns a JSON or XML with the users
         return productsRepository.findAll();
     }
+
+    @GetMapping(path="/find/{id}")
+    public @ResponseBody Iterable<Products> findUser(@PathVariable int id){
+        List<Integer> ids = new ArrayList<>();
+        ids.add(id);
+        return productsRepository.findAllById(ids);
+    }
+
+
     @DeleteMapping(path = "delete/{id}")
     public @ResponseBody void deleteProduct(@PathVariable int id){
         productsRepository.deleteById(id);
     }
+
+
     @PutMapping(path = "update/{id}")
     public @ResponseBody void updateProduct(@PathVariable int id,
                                             @RequestParam String route_image,
