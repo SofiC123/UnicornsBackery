@@ -42,6 +42,7 @@ public class ProductsController {
         productsRepository.save(newProduct);
         return "Saved";
     }
+
     @PostMapping(path="/checkProduct")
     public @ResponseBody Boolean checkProduct(@RequestParam String name,
                                            @RequestParam String tags){
@@ -53,15 +54,18 @@ public class ProductsController {
         }
         return false;
     }
+
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Products> getAllProducts() {
         // This returns a JSON or XML with the users
         return productsRepository.findAll();
     }
+
     @DeleteMapping(path = "delete/{id}")
     public @ResponseBody void deleteProduct(@PathVariable int id){
         productsRepository.deleteById(id);
     }
+
     @PutMapping(path = "update/{id}")
     public @ResponseBody void updateProduct(@PathVariable int id,
                                             @RequestParam String route_image,
