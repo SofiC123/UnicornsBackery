@@ -21,16 +21,16 @@ public class ProductsController {
 
     @PostMapping(path="/addProduct") // Map ONLY POST Requests
     public @ResponseBody String addNewProduct (@RequestParam String route_image,
-                                            @RequestParam String description,
-                                            @RequestParam String name,
-                                            @RequestParam int quantity,
-                                            @RequestParam float price,
-                                            @RequestParam String tags,
-                                            @RequestParam int id_category,
-                                            @RequestParam String createAt,
-                                            @RequestParam String updateAt) {
+                                               @RequestParam String description,
+                                               @RequestParam String name,
+                                               @RequestParam int quantity,
+                                               @RequestParam float price,
+                                               @RequestParam String tags,
+                                               @RequestParam int id_category) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
+        /**/
+
 
         Products newProduct = new Products();
         newProduct.setRoute_image(route_image);
@@ -40,8 +40,6 @@ public class ProductsController {
         newProduct.setPrice(price);
         newProduct.setTags(tags);
         newProduct.setId_category(id_category);
-        newProduct.setCreateAt(createAt);
-        newProduct.setUpdateAt(updateAt);
         productsRepository.save(newProduct);
         return "Saved";
     }
