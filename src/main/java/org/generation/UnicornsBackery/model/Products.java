@@ -22,6 +22,20 @@ public class Products {
     private String createAt;
     private String updateAt;
 
+    public Products() {
+    }
+
+    public Products(String route_image, String description, String name, int quantity, float price, String tags, int id_category) {
+        this.route_image = route_image;
+        this.description = description;
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+        this.tags = tags;
+        this.id_category = id_category;
+    }
+
+
     public int getIdProducts() {
         return id_products;
     }

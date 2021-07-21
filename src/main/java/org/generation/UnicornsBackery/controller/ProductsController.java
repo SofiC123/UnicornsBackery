@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/product") // This means URL's start with /demo (after Application path)
 
@@ -19,7 +20,7 @@ public class ProductsController {
     @Autowired
     private ProductsRepository productsRepository;
 
-    @PostMapping(path="/addProduct", consumes = MediaType.APPLICATION_JSON_VALUE) // Map ONLY POST Requests
+    @PostMapping(path="/addProduct") // Map ONLY POST Requests
     public @ResponseBody String addNewProduct (@RequestBody Products product) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
@@ -31,17 +32,18 @@ public class ProductsController {
                                                @RequestPart("tags") String tags,
                                                @RequestPart("id_category") int id_category */
 
-       /* Products newProduct = new Products();
-        newProduct.setRoute_image(route_image);
-        newProduct.setDescription(description);
-        newProduct.setName(name);
-        newProduct.setQuantity(quantity);
-        newProduct.setPrice(price);
-        newProduct.setTags(tags);
-        newProduct.setId_category(id_category);*/
-        productsRepository.save(product);
+        Products newProduct = new Products();
+        newProduct.setRoute_image(product.getRoute_image());
+        newProduct.setDescription(product.getDescription());
+        newProduct.setName(product.getName());
+        newProduct.setQuantity(product.getQuantity());
+        newProduct.setPrice(product.getPrice());
+        newProduct.setTags(product.getTags());
+        newProduct.setId_category(product.getId_category());
+        productsRepository.save(newProduct);
         return "Saved";
     }
+
     @PostMapping(path="/checkProduct")
     public @ResponseBody Boolean checkProduct(@RequestParam String name,
                                            @RequestParam String tags){
@@ -71,6 +73,7 @@ public class ProductsController {
     public @ResponseBody void deleteProduct(@PathVariable int id){
         productsRepository.deleteById(id);
     }
+
     @PutMapping(path = "update/{id}")
     public @ResponseBody void updateProduct(@PathVariable int id,
                                             @RequestParam String route_image,
