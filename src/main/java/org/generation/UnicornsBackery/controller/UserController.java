@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/user") // This means URL's start with /demo (after Application path)
 public class UserController {
@@ -18,37 +19,42 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping(path="/register") // Map ONLY POST Requests
-    public @ResponseBody String addNewUser (@RequestParam String user_name,
-                                            @RequestParam String email,
-                                            @RequestParam String password,
-                                            @RequestParam int id_type_user,
-                                            @RequestParam String createAt,
-                                            @RequestParam String updateAt) {
+    public @ResponseBody String addNewUser (@RequestBody Users user)
+
+
+    {
+        /*@RequestParam String user_name,
+        @RequestParam String email,
+        @RequestParam String password,
+        @RequestParam int id_type_user,
+        @RequestParam String createAt,
+        @RequestParam String updateAt
+*/
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
         Users newUser = new Users();
-        newUser.setUser_name(user_name);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
-        newUser.setId_type_user(id_type_user);
-        newUser.setCreateAt(createAt);
-        newUser.setUpdateAt(updateAt);
+        newUser.setUser_name(user.getUser_name());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(user.getPassword());
+        newUser.setId_type_user(user.getId_type_user());
         userRepository.save(newUser);
         return "Saved";
     }
 
     @PostMapping(path="/login")
-    public @ResponseBody Boolean loginUser(@RequestParam String email,
-                                           @RequestParam String password){
+    public @ResponseBody String loginUser(@RequestBody Users userAPI){
+
         Iterable<Users> users = userRepository.findAll();
         for (Users user: users) {
-            if(user.getEmail().equals(email) && user.getPassword().equals(password)){
-                return true;
+            if(user.getEmail().equals(userAPI.getEmail()) && user.getPassword().equals(userAPI.getPassword())){
+                return "Logged";
             }
         }
-        return false;
+        return "No log";
     }
+
+
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Users> getAllUsers() {
