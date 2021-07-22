@@ -62,7 +62,7 @@ public class ProductsController {
     }
 
     @GetMapping(path="/find/{id}")
-    public @ResponseBody Iterable<Products> findUser(@PathVariable int id){
+    public @ResponseBody Iterable<Products> findProduct(@PathVariable int id){
         List<Integer> ids = new ArrayList<>();
         ids.add(id);
         return productsRepository.findAllById(ids);
